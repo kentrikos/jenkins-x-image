@@ -1,0 +1,25 @@
+plugins:
+  proxy:
+    name: "${jenkins_proxy_http}"
+    noProxyHost: "${jenkins_no_proxy_list}"
+    port: ${jenkins_proxy_http_port}
+jobs:
+  - script: >
+      pipelineJob("Install_Kubernetes") {
+            description()
+            disabled(false)
+            keepDependencies(false)
+            definition {
+              cpsScm {
+                scm {
+                  git {
+                    remote {
+                      url("https://github.com/kentrikos/jenkins-bootstrap-pipelines.git")
+                    }
+                    branch("*/master")
+                  }
+                }
+                scriptPath("application/kubernetes/install/Jenkinsfile")
+              }
+            }
+           }
